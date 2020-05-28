@@ -5,9 +5,11 @@
  */
 package View;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 
 /**
  *
@@ -132,6 +134,7 @@ public class ViewChooseSeat extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         comboBox = new javax.swing.JComboBox<>();
         numberTicket = new javax.swing.JTextField();
+        reloadBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         seatLabel = new javax.swing.JLabel();
         backBtn = new javax.swing.JButton();
@@ -711,6 +714,8 @@ public class ViewChooseSeat extends javax.swing.JFrame {
 
         comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Room 1", "Room 2", "Room 3", "Room4" }));
 
+        reloadBtn.setText("Reload");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -722,10 +727,12 @@ public class ViewChooseSeat extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(numberTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(48, 48, 48)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reloadBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -741,7 +748,8 @@ public class ViewChooseSeat extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(reloadBtn)))
                 .addGap(44, 44, 44)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -1198,6 +1206,10 @@ public class ViewChooseSeat extends javax.swing.JFrame {
         }
     }
     
+    public JButton getReloadBtn(){
+        return this.reloadBtn;
+    }
+    
     public JButton getBackBtn(){
         return this.backBtn;
     }
@@ -1208,6 +1220,10 @@ public class ViewChooseSeat extends javax.swing.JFrame {
 
     public JButton getNextBtn(){
         return this.nextBtn;
+    }
+    
+    public Component[] getArraySeats(){
+        return this.jPanel2.getComponents();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
@@ -1278,6 +1294,7 @@ public class ViewChooseSeat extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton nextBtn;
     private javax.swing.JTextField numberTicket;
+    private javax.swing.JButton reloadBtn;
     private javax.swing.JLabel seatLabel;
     // End of variables declaration//GEN-END:variables
 }
