@@ -5,8 +5,10 @@
  */
 package View;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 
 /**
@@ -14,12 +16,13 @@ import javax.swing.JTextField;
  * @author BVCN 88
  */
 public class AddNewMovie extends javax.swing.JFrame {
-
+ private JTextField filename = new JTextField(), dir = new JTextField();
     /**
      * Creates new form AddNewMovie
      */
     public AddNewMovie() {
         initComponents();
+         browseBtn.addActionListener(new AddNewMovie.OpenL());
     }
 
     /**
@@ -110,7 +113,13 @@ public class AddNewMovie extends javax.swing.JFrame {
     public JButton getConfirmBtn(){
         return this.confirmBtn;
     }
-
+//     public static void main(String args[]) {
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new AddNewMovie().setVisible(true);
+//            }
+//        });
+//     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseBtn;
     private javax.swing.JButton confirmBtn;
@@ -119,4 +128,41 @@ public class AddNewMovie extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField titleTextField;
     // End of variables declaration//GEN-END:variables
+class OpenL implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       
+      JFileChooser c = new JFileChooser("C:\\Users\\nguye\\Documents\\NetBeansProjects\\TicketCinemaManagementSystem\\src\\img");
+      
+      
+      // Demonstrate "Open" dialog:
+      int rVal = c.showOpenDialog(AddNewMovie.this);
+      if (rVal == JFileChooser.APPROVE_OPTION) {
+        filename.setText(c.getSelectedFile().getName());
+        dir.setText(c.getCurrentDirectory().toString());
+          browseBtn.setText(c.getCurrentDirectory().toString());
+      }
+      if (rVal == JFileChooser.CANCEL_OPTION) {
+        filename.setText("You pressed cancel");
+        dir.setText("");
+      }
+    }
+  }
+
+  class SaveL implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+      JFileChooser c = new JFileChooser();
+      // Demonstrate "Save" dialog:
+      int rVal = c.showSaveDialog(AddNewMovie.this);
+      if (rVal == JFileChooser.APPROVE_OPTION) {
+        filename.setText(c.getSelectedFile().getName());
+        dir.setText(c.getCurrentDirectory().toString());
+      }
+      if (rVal == JFileChooser.CANCEL_OPTION) {
+        filename.setText("You pressed cancel");
+        dir.setText("");
+      }
+    }
+  }
+
 }

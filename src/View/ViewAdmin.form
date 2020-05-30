@@ -449,7 +449,7 @@
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="jButton10" min="-2" pref="161" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="deleteMovieSchedule1" min="-2" pref="160" max="-2" attributes="0"/>
+                      <Component id="deleteFoodOrDrink" min="-2" pref="160" max="-2" attributes="0"/>
                       <EmptySpace pref="519" max="32767" attributes="0"/>
                   </Group>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -464,7 +464,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton4" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                           <Component id="jButton10" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
-                          <Component id="deleteMovieSchedule1" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
+                          <Component id="deleteFoodOrDrink" alignment="3" min="-2" pref="49" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -559,7 +559,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton10ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="deleteMovieSchedule1">
+            <Component class="javax.swing.JButton" name="deleteFoodOrDrink">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="18" style="0"/>
@@ -575,7 +575,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteMovieSchedule1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteFoodOrDrinkActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

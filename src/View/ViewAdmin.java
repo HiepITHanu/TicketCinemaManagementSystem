@@ -66,6 +66,10 @@ public class ViewAdmin extends javax.swing.JFrame {
     public JButton getAddnewMovieBtn(){
         return addNewMovieBtn;
     }
+
+    public JButton getDeleteFoodOrDrink() {
+        return deleteFoodOrDrink;
+    }
     
     
 
@@ -104,7 +108,7 @@ public class ViewAdmin extends javax.swing.JFrame {
         foodAndDrink = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        deleteMovieSchedule1 = new javax.swing.JButton();
+        deleteFoodOrDrink = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         accountTable = new javax.swing.JTable();
@@ -403,13 +407,13 @@ public class ViewAdmin extends javax.swing.JFrame {
             }
         });
 
-        deleteMovieSchedule1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        deleteMovieSchedule1.setText("Delete");
-        deleteMovieSchedule1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        deleteMovieSchedule1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deleteMovieSchedule1.addActionListener(new java.awt.event.ActionListener() {
+        deleteFoodOrDrink.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        deleteFoodOrDrink.setText("Delete");
+        deleteFoodOrDrink.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        deleteFoodOrDrink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteFoodOrDrink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteMovieSchedule1ActionPerformed(evt);
+                deleteFoodOrDrinkActionPerformed(evt);
             }
         });
 
@@ -423,7 +427,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(deleteMovieSchedule1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(deleteFoodOrDrink, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(519, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE))
@@ -435,7 +439,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteMovieSchedule1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteFoodOrDrink, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
@@ -643,17 +647,17 @@ public class ViewAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void deleteMovieSchedule1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMovieSchedule1ActionPerformed
+    private void deleteFoodOrDrinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteFoodOrDrinkActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteMovieSchedule1ActionPerformed
+    }//GEN-LAST:event_deleteFoodOrDrinkActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable accountTable;
     private javax.swing.JButton addNewMovieBtn;
     private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton deleteFoodOrDrink;
     private javax.swing.JButton deleteMovieSchedule;
-    private javax.swing.JButton deleteMovieSchedule1;
     private javax.swing.JButton deleteStaff;
     private javax.swing.JTable foodAndDrink;
     private javax.swing.JButton jButton1;
