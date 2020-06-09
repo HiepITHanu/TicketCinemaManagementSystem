@@ -6,12 +6,21 @@
 package controller;
 
 import View.AddNewMovie;
+import View.AddNewScheduleMovie;
+import View.AddNewStaff;
+import View.UpdateAccount;
+import View.UpdateFoodsDrinks;
+import View.UpdateMovie;
+import View.ViewAddNewFoodsDrinks;
 import View.ViewAdmin;
-import java.io.FileNotFoundException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -28,8 +37,14 @@ import modelDao.adminDao;
  * @author BVCN 88
  */
 public class ControllerAdmin {
-
+    private ViewAddNewFoodsDrinks vanfd ;
     private ViewAdmin viewadmin;
+    private AddNewScheduleMovie ansm;
+    private UpdateFoodsDrinks uFaD;
+    private UpdateMovie uM;
+    private UpdateAccount uA;
+    private AddNewStaff ans;    
+    private AddNewMovie anM;
     private JTable movieScheduleTable;
     private JTable moviesTable;
     private JTable foodJTable;
@@ -40,9 +55,16 @@ public class ControllerAdmin {
     private JButton deleteMovieBtn;
     private JButton deleteAccountBtn;
     private JButton deleteMovieSchedule;
+    private JButton deleteFoodOrDrink;
 
     public ControllerAdmin() {
         viewadmin = new ViewAdmin();
+        vanfd = new ViewAddNewFoodsDrinks();
+        ansm = new AddNewScheduleMovie();
+        uM= new UpdateMovie();
+        uFaD = new UpdateFoodsDrinks();
+        uA = new UpdateAccount();
+        anM = new AddNewMovie();
         viewadmin.setVisible(true);
         generateMovieSchedule();
         generateMovie();
@@ -53,6 +75,12 @@ public class ControllerAdmin {
         deleteAMovie();
         deleteAFoodAndDrink();
         deleteAnAccount();
+        addMovie();
+        addFoodAndDrink();
+        addAccount();
+        updateMovie();
+        updateAnAcoount();
+        updateAFoodAndDrink();
     }
 
     private void generateMovieSchedule() {
@@ -247,40 +275,86 @@ public class ControllerAdmin {
     }
 
     private void addMovie() {
-        viewadmin.getAddnewMovieBtn().addActionListener((e) -> {
-            AddNewMovie viewNewMovie = new AddNewMovie();
-            viewNewMovie.setVisible(true);
-
-            viewNewMovie.getBrowseBtn().addActionListener((e1) -> {
-                try {
-                    final JFileChooser fc = new JFileChooser();
-                    int dialog = fc.showOpenDialog(viewNewMovie);
-                    if(rVal ==JFileChooser)
-                } catch (FileNotFoundException f) {
-                    f.printStackTrace();
-                }
-            });
+        adminDao ad = new adminDao();
+        anM.getConfirmBtn().addActionListener((t)->{ 
+            String title = anM.getTitleTextField().getText();
+            String path = anM.getBrowseBtn().getText();
+            Movie movie = new Movie();
+            movie.setName(title);
+            movie.setUrlImg(path);
+            ad.insertAMovie(movie);
         });
     }
 
     private void addFoodAndDrink() {
         //TODO: add food and drink movie
         //MISSING: UI
+       adminDao aD = new adminDao();
+        vanfd.getoKBtn().addActionListener((ok) ->{
+            String name = vanfd.getNameField().getText();
+            double price = Double.parseDouble(vanfd.getPriceField().getText());
+            FoodAndDrink food = new FoodAndDrink(name, price);
+            aD.insertAFoodsAndDrinks(food);
+        
+        });
+        vanfd.getCancelBtn().addActionListener((v)->{
+            vanfd.dispose();
+        });
     }
 
     private void addMovieSchedule() {
         //TODO: add movies Schedule
-        //MISSING: UI
+        
+//         adminDao aD = new adminDao();
+//         MovieSchedule mv = new MovieSchedule(schedule, 0);
+//         aD.insertAMovieSchedule(movieSchedule);
     }
 
     private void addAccount() {
         //TODO: add account
         //MISSING: UI
+         adminDao aD = new adminDao();
+        ans.getAddBtn().addActionListener((v1) ->{
+            
+            try {
+                 String username = ans.getUsername().getText();
+                 String password = ans.getPassword().getText();
+                 String hashPass = toHexString(password);
+                 String type = ans.getAccountType().getSelectedItem().toString();
+                 Account acc = new Account(username, hashPass,type);
+                 aD.insertAnAccount(acc);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(ControllerAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             
+        });
+       
     }
 
     private void updateMovie() {
         //TODO: update a movie
         //MISSING: UI
+        adminDao aD = new adminDao();
+        int iD = Integer.parseInt(uM.getSearchBtn().getText());
+        ArrayList<Movie> movies = aD.getAllMovie();
+        Movie mo = new Movie();
+        for(Movie m: movies){
+            if(m.getMovieId() == iD){
+                mo.setMovieId(iD);
+                mo.setName(m.getName());
+                mo.setScheduleMovieId(m.getScheduleMovieId());
+                mo.setUrlImg(m.getUrlImg());
+                break;
+            }
+        }
+        uM.getTitleField().setText(mo.getName());
+        uM.getUpdateBtn().addActionListener((lis)->{
+            String name = uM.getTitleField().getText();
+            String path = uM.getBrowseBtn().getText();
+            aD.updateAMovie(iD, name, path,mo.getScheduleMovieId());
+        
+        });
+        
     }
 
     private void updateMovieSchedule() {
@@ -291,11 +365,50 @@ public class ControllerAdmin {
     private void updateAFoodAndDrink() {
         //TODO: update a food or drink
         //MISSING: UI
+        try{
+        adminDao aD = new adminDao();
+        int iD = Integer.parseInt(uFaD.getiDField().getText());
+        uFaD.getSearchBtn().addActionListener((e2) -> { 
+            FoodAndDrink fD = aD.getSpecificFoodAndDrink(iD);
+            uFaD.getNameField().setText(fD.getName());
+            uFaD.getPriceField().setText(String.valueOf(fD.getPrice()));
+            uFaD.getQuantityField().setText(String.valueOf(fD.getQuanity()));
+        
+        });
+        uFaD.getCancelBtn().addActionListener((e1)->{
+            uFaD.dispose();
+        });
+        uFaD.getUpdateBtn().addActionListener((e) -> { 
+            String name =  uFaD.getNameField().getText();
+            double price = Double.parseDouble(uFaD.getPriceField().getText());
+            int quantity = Integer.parseInt(uFaD.getQuantityField().getText());
+            aD.updateAFoodsAndDrinks(iD, name, price, iD);
+        });
+        }catch(Exception e){
+            //dialog
+        }
     }
 
     private void updateAnAcoount() {
         //TODO: update an account
         //MISSING: UI
+        uA.getSearchBtn().addActionListener((o) -> { 
+            int iD = Integer.parseInt(uA.getiDField().getText());
+            adminDao aD = new adminDao();
+            ArrayList<Account> accounts = aD.getAllAccounts();
+            for(Account acc : accounts){
+                if(acc.getUserId() == iD){
+                    uA.getUserNameField().setText(acc.getUsername());
+                    uA.getPasswordField().setText(acc.getPassword());
+                    uA.getRole().setSelectedItem(acc.getType());
+                    break;
+                }
+            }
+            
+        });
+        uA.getCancelBtn().addActionListener((v)-> { 
+            uA.dispose();
+        });
     }
 
     private void deleteAMovie() {
@@ -338,5 +451,38 @@ public class ControllerAdmin {
 
     private void deleteAFoodAndDrink() {
         //TODO: delete food and drink
+        adminDao aD = new adminDao();
+        deleteFoodOrDrink = viewadmin.getDeleteFoodOrDrink();
+        deleteFoodOrDrink.addActionListener((f)->{
+             tabbed = viewadmin.getTabbed();
+              DefaultTableModel dtb = (DefaultTableModel) foodJTable.getModel() ;
+            int selectedRowIndex = foodJTable.getSelectedRow();
+            aD.deleteAFoodsAndDrinks((int) (dtb.getValueAt(selectedRowIndex, 0)));
+        });
+    }
+    /**
+     *
+     * @param s
+     * @effects
+     * @return hash-265 pass
+     * @throws NoSuchAlgorithmException
+     */
+    private String toHexString(String s) throws NoSuchAlgorithmException {
+        // Static getInstance method is called with hashing SHA
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(s.getBytes(StandardCharsets.UTF_8));
+        // Convert byte array into signum representation
+        BigInteger number = new BigInteger(1, hash);
+
+        // Convert message digest into hex value
+        StringBuilder hexString = new StringBuilder(number.toString(16));
+
+        // Pad with leading zeros
+        while (hexString.length() < 32)
+        {
+            hexString.insert(0, '0');
+        }
+
+        return hexString.toString();
     }
 }
