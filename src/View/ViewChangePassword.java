@@ -6,6 +6,8 @@
 package View;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -130,6 +132,16 @@ public class ViewChangePassword extends javax.swing.JFrame {
 
     public JButton getConfirmBtn() {
         return confirmBtn;
+    }
+    
+    public void showAlertOk(){
+        JFrame f = new JFrame();
+        JOptionPane.showMessageDialog(f,"Successfully!","Alert",JOptionPane.WARNING_MESSAGE); 
+    }
+    
+    public void showAlertFail(){
+        JFrame f = new JFrame();
+        JOptionPane.showMessageDialog(f,"Change password fail!","Alert",JOptionPane.WARNING_MESSAGE); 
     }
     
 

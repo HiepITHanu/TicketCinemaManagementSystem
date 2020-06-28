@@ -13,23 +13,23 @@ package model;
 public class Movie {
     private int movieId;
     private String name;
-    private String urlImg;
-    private int scheduleMovieId;
+    private String genre;
+    private String durationTime;
+    private String thumbnail;
 
-    public Movie(int movieId, String name, String urlImg, int scheduleMovieId) {
+    public Movie(int movieId, String name, String genre, String durationTime, String thumbnail) {
         this.movieId = movieId;
         this.name = name;
-        this.urlImg = urlImg;
-        this.scheduleMovieId = scheduleMovieId;
-    }
-    
-
-    public String getUrlImg() {
-        return urlImg;
+        this.genre = genre;
+        this.durationTime = durationTime;
+        this.thumbnail = thumbnail;
     }
 
-    public void setUrlImg(String urlImg) {
-        this.urlImg = urlImg;
+    public Movie(String name, String genre, String durationTime, String thumbnail) {
+        this.name = name;
+        this.genre = genre;
+        this.durationTime = durationTime;
+        this.thumbnail = thumbnail;
     }
 
     public int getMovieId() {
@@ -48,12 +48,28 @@ public class Movie {
         this.name = name;
     }
 
-    public int getScheduleMovieId() {
-        return scheduleMovieId;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setScheduleMovieId(int scheduleMovieId) {
-        this.scheduleMovieId = scheduleMovieId;
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDurationTime() {
+        return durationTime;
+    }
+
+    public void setDurationTime(String durationTime) {
+        this.durationTime = durationTime;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
 

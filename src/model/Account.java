@@ -13,19 +13,11 @@ public class Account {
     private String username;
     private String password;
     private String type;
-    private int userId;
 
-    public Account(String username, String password, String type, int userId) {
+    public Account(String username, String password, String type) {
         this.username = username;
         this.password = password;
         this.type = type;
-        this.userId = userId;
-    }
-
-    public Account(String password, String type, int userId) {
-        this.password = password;
-        this.type = type;
-        this.userId = userId;
     }
     
     public Account(String username, String password){
@@ -39,14 +31,6 @@ public class Account {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {

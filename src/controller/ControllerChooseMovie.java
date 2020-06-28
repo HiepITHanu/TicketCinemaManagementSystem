@@ -6,7 +6,6 @@
 package controller;
 
 import View.ViewChooseMovies;
-import View.ViewScheduleMovie;
 import View.ViewStaff;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import model.Movie;
-import model.Order;
+import model.MovieSchedule;
 import modelDao.staffDao;
 
 /**
@@ -28,16 +27,15 @@ public class ControllerChooseMovie {
     private ArrayList<Movie> listMovie;
     private int index;
     private ViewStaff viewStaff;
-    private Order order;
+    private ControllerScheduleMovie viewSM;
 
-    public ControllerChooseMovie(ViewStaff viewStaff,Order order) {
+    public ControllerChooseMovie(ViewStaff viewStaff) {
         this.viewStaff = viewStaff;
         this.viewChooseMovie = new ViewChooseMovies();
         this.viewChooseMovie.setVisible(true);
         this.staffDao = new staffDao();
         this.listMovie = staffDao.getAllMovie();
         this.index = 0;
-        this.order = order;
         action();
     }
 
@@ -45,7 +43,7 @@ public class ControllerChooseMovie {
         if (!listMovie.isEmpty()) {
             System.out.println(listMovie.size());
             JLabel img = this.viewChooseMovie.getImgLabel();
-            img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getUrlImg()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
+            img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getThumbnail()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
 
             JButton nextBtn = this.viewChooseMovie.getNextBtn();
             JButton previousBtn = this.viewChooseMovie.getPreviousButton();
@@ -54,7 +52,7 @@ public class ControllerChooseMovie {
                 System.out.println(index);
                 if (index < this.listMovie.size() - 1) {
                     index++;
-                    img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getUrlImg()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
+                    img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getThumbnail()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
                 }
             });
 
@@ -62,13 +60,8 @@ public class ControllerChooseMovie {
                 System.out.println(index);
                 if (index > 0 && index < this.listMovie.size()) {
                     index--;
-                    img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getUrlImg()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
+                    img.setIcon(new ImageIcon(new ImageIcon(this.listMovie.get(index).getThumbnail()).getImage().getScaledInstance(442, 500, Image.SCALE_DEFAULT)));
                 }
-            });
-
-            this.viewChooseMovie.getNextButton().addActionListener((e) -> {
-                this.viewChooseMovie.setVisible(false);
-                ControllerChooseSeat cs = new ControllerChooseSeat(this.viewChooseMovie);
             });
 
             this.viewChooseMovie.getBackBtn().addActionListener((e) -> {
@@ -78,9 +71,10 @@ public class ControllerChooseMovie {
 
             this.viewChooseMovie.getBookButton().addActionListener((e) -> {
                 Movie m = listMovie.get(index);
-                System.out.println(m.getMovieId());
-                ControllerScheduleMovie viewSM = new ControllerScheduleMovie(m, order);
-                System.out.println(viewSM.getSelectSchedule());
+                this.viewChooseMovie.setVisible(false);
+//                System.out.println(m.getMovieId());
+                viewSM = new ControllerScheduleMovie(m, viewChooseMovie);
+              
             });
         }
     }

@@ -5,6 +5,7 @@
  */
 package modelDao;
 
+import model.FoodAndDrink_Order;
 import DBConnect.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,6 +35,7 @@ public class staffDao {
         con = DBConnection.getConnection();
     }
     
+    //checked: oke
     public ArrayList<Movie> getAllMovie(){
         String query = "SELECT * FROM movie";
         
@@ -46,9 +48,10 @@ public class staffDao {
             while(rs.next()){
                 int id = rs.getInt("ID");
                 String title = rs.getString("NAME");
-                String img = rs.getString("URL");
-                int scheduleMovieId = rs.getInt("moviescheduleid");
-                Movie m = new Movie(id, title, img, scheduleMovieId);
+                String genre = rs.getString("GENRE");
+                String durationTime = rs.getString("DURATIONTIME");
+                String thumbnail = rs.getString("THUMBNAIL");
+                Movie m = new Movie(id, title, genre, durationTime, thumbnail);
                 listMovie.add(m);
             }
         }catch(SQLException ex){
@@ -56,18 +59,41 @@ public class staffDao {
         }
         return listMovie;
     }
-
+    //checked: oke
+    public Movie getSpecificMovie(int movieId){
+        Movie movie = null;
+        String query = "SELECT * FROM movie where id = " + movieId;
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                int id = rs.getInt("ID");
+                String nameMovie = rs.getString("NAME");
+                String genre = rs.getString("GENRE");
+                String durationTime = rs.getString("DURATIONTIME");
+                String thumbnail = rs.getString("THUMBNAIL");
+                movie = new Movie(id, nameMovie, genre, durationTime, thumbnail);
+            }
+        }catch(SQLException e){
+            Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return movie;
+    }
+    
+    //checked: oke
     public ArrayList<MovieSchedule> getAllMovieSchedule() {
-        String query = "SELECT * FROM movieSchedule";
+        String query = "SELECT * FROM schedule";
         ArrayList<MovieSchedule> lstMovieSchedule = new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("ID");
-                String schedule = rs.getString("SCHEDULE");
+                String time = rs.getString("TIME");
                 int movieId = rs.getInt("MOVIEID");
-                MovieSchedule movieSchedule = new MovieSchedule(id, schedule, movieId);
+                MovieSchedule movieSchedule = new MovieSchedule(id, time, movieId);
                 lstMovieSchedule.add(movieSchedule);
             }
         } catch (SQLException ex) {
@@ -75,23 +101,26 @@ public class staffDao {
         }
         return lstMovieSchedule;
     }
-
-    public MovieSchedule getSpecificMovieSchedule(int movieScheduleId) {
+    
+    //checked: oke
+    public ArrayList<MovieSchedule>  getSpecificMovieSchedule(int mId) {
+        ArrayList<MovieSchedule> listSchedule = new ArrayList<>();
+        String query = "SELECT * FROM schedule WHERE MOVIEID = " + "\"" + mId + "\"";
         MovieSchedule movieSchedule = null;
-        String query = "SELECT * FROM movieSchedule WHERE ID = " + "\"" + movieScheduleId + "\"";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("ID");
-                String schedule = rs.getString("SCHEDULE");
+                String time = rs.getString("TIME");
                 int movieId = rs.getInt("MOVIEID");
-                movieSchedule = new MovieSchedule(id, schedule, movieId);
+                movieSchedule = new MovieSchedule(id, time, movieId);
+                listSchedule.add(movieSchedule);
             }
         } catch (SQLException ex) {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return movieSchedule;
+        return listSchedule;
     }
 
     public void insertAMovieSchedule(MovieSchedule movieSchedule) {
@@ -132,27 +161,43 @@ public class staffDao {
         }
         return deleted;
     }
-
-    public ArrayList<Order> getOrderHistory() {
-        String query = "SELECT * FROM orders";
-        ArrayList<Order> Orders = new ArrayList<>();
+    
+    //checked: oke
+    public ArrayList<Order> getAllOrder() {
+        String query = "SELECT * FROM cinerma.order";
+        ArrayList<Order> orders = new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
-                int orderId = rs.getInt("ORDERID");
-                int numOfTic = rs.getInt("NUMOFTICKET");
+                int orderId = rs.getInt("ID");
+                int numOfTic = rs.getInt("NUMBERTICKET");
                 double totalPrice = rs.getDouble("TOTALPRICE");
-                MovieSchedule ms = getSpecificMovieSchedule(rs.getInt("MOVIESCHEDULEID"));
-                ExtraOrder eo = getSpecificExtraOrder(rs.getInt("EXTRAORDERID"));
-                int ro = rs.getInt("ROOMID");
-                Order or = new Order(orderId, ms, eo, numOfTic, totalPrice, ro);
-                Orders.add(or);
+                int movieId = rs.getInt("MOVIEID");
+                Order or = new Order(orderId,numOfTic, totalPrice, movieId);
+                orders.add(or);
             }
         } catch (SQLException e) {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, e);
         }
-        return null;
+        return orders;
+    }
+    
+    //check: oke
+    public void insertFoodAndDrink_Order(FoodAndDrink_Order fo){
+        String query = "INSERT INTO foodanddrink_order (ORDERID,FOODANDDRINKID, AMOUNT) VALUES (?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, fo.getOrderId());
+            ps.setInt(2, fo.getFoodId());
+            ps.setInt(3, fo.getQuanity());
+
+            ps.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public Order getSpecificOrder(int orderId) {
@@ -175,19 +220,17 @@ public class staffDao {
         return or;
     }
 
+    //check: oke
     public void insertOrder(Order or) {
-        String query = "INSERT INTO orders (ORDERID,NUMOFTICKET,TOTALPRICE,MOVIESCHEDULEID,EXTRAORDERID,ROOMID) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO cinerma.order (NUMBERTICKET,TOTALPRICE,MOVIEID) VALUES (?,?,?)";
         try {
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, or.getOrderId());
-            ps.setInt(2, or.getNumberOfTickets());
-            ps.setDouble(3, or.getTotalPrice());
-            ps.setInt(4, or.getMovieSchedule().getId());
-            ps.setInt(5, or.getExOrder().getExtraOrderId());
-            ps.setInt(5, or.getRoomId());
-            ps.executeUpdate();
+            ps.setInt(1, or.getNumberTicket());
+            ps.setDouble(2, or.getTotalPrice());
+            ps.setInt(3, or.getMovieId());
             
-            insertExtraOrder(or.getExOrder());
+            ps.execute();
+            
         } catch (SQLException ex) {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,6 +264,7 @@ public class staffDao {
         return isDeleted;
     }
 
+    //checked: oke
     public ArrayList<Room> getAllRoom() {
         ArrayList<Room> rooms = new ArrayList<>();
         String query = "SELECT * FROM room";
@@ -228,10 +272,11 @@ public class staffDao {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("ROOMID");
-                String name = rs.getString("ROOMNAME");
-                ArrayList<String> seats = splitString(rs.getString("SEATS"));
-                Room r = new Room(id, name, seats);
+                int id = rs.getInt("ID");
+                String name = rs.getString("NAME");
+                ArrayList<String> orderedSeat = splitString(rs.getString("ORDEREDSEAT"));
+                int scheduleId = rs.getInt("SCHEDULEID");
+                Room r = new Room(id, name, orderedSeat, scheduleId);
                 rooms.add(r);
             }
         } catch (SQLException ex) {
@@ -240,20 +285,25 @@ public class staffDao {
         return rooms;
     }
 
-    public Room getSpecificRoom(int roomId) {
+    public ArrayList<Room> getSpecificRoom(int scheduleId) {
+        ArrayList<Room> rooms = new ArrayList<>();
         Room r = null;
-        String query = "SELECT * FROM room WHERE ROOMID = " + roomId;
+        String query = "SELECT * FROM room WHERE SCHEDULEID = " + scheduleId;
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            int id = rs.getInt("ROOMID");
-            String name = rs.getString("ROOMNAME");
-            ArrayList<String> seats = splitString(rs.getString("SEATS"));
-            r = new Room(id, name, seats);
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String name = rs.getString("NAME");
+                ArrayList<String> orderedSeat = splitString(rs.getString("ORDEREDSEAT"));
+                int scheId = rs.getInt("SCHEDULEID");
+                r = new Room(id, name, orderedSeat, scheId);
+                rooms.add(r);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return r;
+        return rooms;
     }
     
     public void  insertARoom(Room r){
@@ -279,16 +329,20 @@ public class staffDao {
         }
     }
     
-    public void updateARoom(int id, String name, ArrayList<String> lst){
-        String text = "";
-        for (int i = 0; i < lst.size(); i++) {
-            if (i < lst.size() - 1) {
-                text += lst.get(i) + ",";
-            } else {
-                text += lst.get(i);
-            }
+    //check: 
+    public void updateARoom(int roomId,String orderedSeats){
+        //UPDATE `cinerma`.`room` SET `orderedSeat` = 'B-4,B-6' WHERE (`id` = '2');
+        String query = "UPDATE cinerma.room SET orderedSeat = ? WHERE id = ?";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, orderedSeats);
+            ps.setInt(2, roomId);
+            System.out.println(query);
+            ps.execute();
+        }catch(SQLException e){
+            Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, e);
         }
-        String query = "UPDATE room SET ROOMNAME = ("+name+"), SEATS = ("+text+")";
     }
 
     public boolean login(Account a) {
@@ -302,7 +356,7 @@ public class staffDao {
     //utility functions
     private ArrayList<String> splitString(String str) {
         ArrayList<String> strs = new ArrayList<>();
-        for (String a : str.split(",")) {
+        for (String a : str.split(" ")) {
             strs.add(a);
         }
         return strs;
@@ -404,9 +458,10 @@ public class staffDao {
         return b;
     }
 
-    private FoodAndDrink getSpecificFoodAndDrink(int foodAndDrinkID) {
+    //check: oke
+    public FoodAndDrink getSpecificFoodAndDrink(int foodAndDrinkID) {
         FoodAndDrink food = null;
-        String query = "SELECT * FROM foodAndDrink WHERE ID = " + "\"" + foodAndDrinkID + "\"";
+        String query = "SELECT * FROM foodanddrink WHERE ID = " + "\"" + foodAndDrinkID + "\"";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -414,15 +469,15 @@ public class staffDao {
                 int id = rs.getInt("ID");
                 String name = rs.getString("NAME");
                 int price = rs.getInt("PRICE");
-                int quantity = rs.getInt("QUANTITY");
-                food = new FoodAndDrink(id, name, price, quantity);
+                food = new FoodAndDrink(id, name, price);
             }
         } catch (SQLException ex) {
             Logger.getLogger(staffDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return food;
     }
-
+    
+    // changed: oke
     public Account getSpecificAccount(String username) {
         Account account = null;
         String query = "SELECT * FROM account WHERE USERNAME = " + "\"" + username + "\"";
@@ -430,10 +485,9 @@ public class staffDao {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String password = rs.getString("PASSWORD");
+                String password = rs.getString("PASSOWORD");
                 String type = rs.getString("TYPE");
-                int userId = rs.getInt("ACCOUNTID");
-                account = new Account(username, password, type, userId);
+                account = new Account(username, password, type);
             }
         } catch (SQLException ex) {
             Logger.getLogger(adminDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -441,8 +495,9 @@ public class staffDao {
         return account;
     }
     
+    //checked: oke
     public ArrayList<FoodAndDrink> getAllFoodAndDrinks() {
-        String query = "SELECT * FROM foodAndDrink";
+        String query = "SELECT * FROM foodanddrink";
         ArrayList<FoodAndDrink> lstFoodAndDrinks = new ArrayList<>();
         try {
             PreparedStatement ps = con.prepareStatement(query);
@@ -451,13 +506,26 @@ public class staffDao {
                 int id = rs.getInt("ID");
                 String name = rs.getString("NAME");
                 int price = rs.getInt("PRICE");
-                int quantity = rs.getInt("QUANTITY");
-                FoodAndDrink food = new FoodAndDrink(id, name, price, quantity);
+                FoodAndDrink food = new FoodAndDrink(id, name, price);
                 lstFoodAndDrinks.add(food);
             }
         } catch (SQLException ex) {
             Logger.getLogger(adminDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lstFoodAndDrinks;
+    }
+    
+    //changed: oke
+    public void updatePasswordAccount(String username, String password){
+//        UPDATE ACCOUNT SET PASSOWORD = ("1234") WHERE USERNAME = "hieptv";
+        String query = "UPDATE ACCOUNT SET PASSOWORD = ("+"\"" + password + "\"" + ") WHERE USERNAME = " + "\"" + username + "\"";
+        System.out.println(query);
+        try{
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.execute();
+            
+        }catch(SQLException e){
+            Logger.getLogger(adminDao.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 }

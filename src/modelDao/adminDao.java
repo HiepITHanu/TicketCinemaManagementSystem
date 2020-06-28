@@ -284,19 +284,17 @@ public class adminDao {
     }
 
     public Account getSpecificAccount(String username) {
-        Account account = new Account("","",0);
+        Account account = new Account("","");
         String query = "SELECT * FROM account WHERE USERNAME = " + "\"" + username + "\"";
         try {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String password = rs.getString("PASSWORD");
+                String password = rs.getString("PASSOWORD");
                 String type = rs.getString("TYPE");
-                int userId = rs.getInt("accountId");
                 account.setPassword(password);
                 account.setUsername(username);
                 account.setType(type);
-                account.setUserId(userId);
             }
         } catch (SQLException ex) {
             Logger.getLogger(adminDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -521,11 +519,10 @@ public class adminDao {
             PreparedStatement ps = con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Account acc = new Account("", "", "", 0);
+                Account acc = new Account("", "", "");
                 acc.setUsername(rs.getString("username"));
                 acc.setPassword(rs.getString("password"));
                 acc.setType(rs.getString("type"));
-                acc.setUserId(rs.getInt("userid"));
                 accounts.add(acc);
             }
         } catch (SQLException ex) {

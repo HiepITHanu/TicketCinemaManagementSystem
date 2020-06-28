@@ -15,17 +15,15 @@ public class FoodAndDrink {
     private double price;
     private int quanity;
 
-    public FoodAndDrink(int id, String name, double price, int quanity) {
+    public FoodAndDrink(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quanity = quanity;
     }
 
-    public FoodAndDrink(String name, double price, int quanity) {
+    public FoodAndDrink(String name, double price) {
         this.name = name;
         this.price = price;
-        this.quanity = quanity;
     }
 
     public int getId() {
@@ -51,14 +49,4 @@ public class FoodAndDrink {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    public int getQuanity() {
-        return quanity;
-    }
-
-    public void setQuanity(int quanity) {
-        this.quanity = quanity;
-    }
-    
-    
 }

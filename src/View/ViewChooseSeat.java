@@ -6,10 +6,10 @@
 package View;
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
 /**
  *
@@ -60,7 +60,6 @@ public class ViewChooseSeat extends javax.swing.JFrame {
 //        });
 //
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -714,6 +713,17 @@ public class ViewChooseSeat extends javax.swing.JFrame {
 
         comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Room 1", "Room 2", "Room 3", "Room4" }));
 
+        numberTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberTicketActionPerformed(evt);
+            }
+        });
+        numberTicket.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                numberTicketKeyPressed(evt);
+            }
+        });
+
         reloadBtn.setText("Reload");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1173,7 +1183,10 @@ public class ViewChooseSeat extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        this.seatLabel.setText(this.jButton8.getText());
+        if (this.getNumberOfTickets() > this.seats.size()) {
+            this.seats.add(this.jButton8.getText());
+        }
+        this.seatLabel.setText(this.setTextSeat());
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
@@ -1181,6 +1194,38 @@ public class ViewChooseSeat extends javax.swing.JFrame {
         this.numberTicket.setText("");
         this.seats = new ArrayList<>();
     }//GEN-LAST:event_clearBtnActionPerformed
+
+    private void numberTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberTicketActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_numberTicketActionPerformed
+
+    private void numberTicketKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numberTicketKeyPressed
+        String numberT = numberTicket.getText();
+
+        int len = numberT.length();
+
+        char c = evt.getKeyChar();
+
+        if (evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9') {
+            if (len > 56) {
+                numberTicket.setEditable(false);
+            } else {
+                numberTicket.setEditable(true);
+            }
+        } else {
+            if (evt.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE || evt.getExtendedKeyCode() == KeyEvent.VK_DELETE) {
+                numberTicket.setEditable(true);
+            } else {
+                numberTicket.setEditable(false);
+            }
+        }
+    }//GEN-LAST:event_numberTicketKeyPressed
+
+    public void clearAll() {
+        this.seatLabel.setText("");
+        this.numberTicket.setText("");
+        this.seats = new ArrayList<>();
+    }
 
     public String getSeatLabel() {
         return this.seatLabel.getText();
@@ -1191,7 +1236,11 @@ public class ViewChooseSeat extends javax.swing.JFrame {
     }
 
     public int getNumberOfTickets() {
-        return Integer.parseInt(this.numberTicket.getText());
+        if(this.numberTicket.getText() == null){
+            return Integer.parseInt(this.numberTicket.getText());
+        }else{
+            return 0;
+        }
     }
 
     public String setTextSeat() {
@@ -1201,28 +1250,28 @@ public class ViewChooseSeat extends javax.swing.JFrame {
                 result += this.seats.get(i) + " ";
             }
             return result;
-        }else{
+        } else {
             return result;
         }
     }
-    
-    public JButton getReloadBtn(){
+
+    public JButton getReloadBtn() {
         return this.reloadBtn;
     }
-    
-    public JButton getBackBtn(){
+
+    public JButton getBackBtn() {
         return this.backBtn;
     }
-    
-    public ArrayList<String> getListSeat(){
+
+    public ArrayList<String> getListSeat() {
         return this.seats;
     }
 
-    public JButton getNextBtn(){
+    public JButton getNextBtn() {
         return this.nextBtn;
     }
-    
-    public Component[] getArraySeats(){
+
+    public Component[] getArraySeats() {
         return this.jPanel2.getComponents();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

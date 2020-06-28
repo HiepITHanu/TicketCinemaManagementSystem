@@ -11,29 +11,21 @@ package model;
  */
 public class Order {
     private int orderId;
-    private MovieSchedule movieSchedule;
-    private ExtraOrder exOrder;
-    private int numberOfTickets;
+    private int numberTicket;
     private double totalPrice;
-    private int roomId;
-    
-    public Order(){
-        
-    }
-    public Order(int orderId, MovieSchedule movieSchedule, ExtraOrder exOrder, int numberOfTickets, double totalPrice, int roomId) {
+    private int movieId;
+
+    public Order(int orderId, int numberTicket, double totalPrice, int movieId) {
         this.orderId = orderId;
-        this.movieSchedule = movieSchedule;
-        this.exOrder = exOrder;
-        this.numberOfTickets = numberOfTickets;
+        this.numberTicket = numberTicket;
         this.totalPrice = totalPrice;
-        this.roomId = roomId;
+        this.movieId = movieId;
     }
 
-    public Order(MovieSchedule movieSchedule, ExtraOrder exOrder, int numberOfTickets, double totalPrice) {
-        this.movieSchedule = movieSchedule;
-        this.exOrder = exOrder;
-        this.numberOfTickets = numberOfTickets;
+    public Order(int numberTicket, double totalPrice, int movieId) {
+        this.numberTicket = numberTicket;
         this.totalPrice = totalPrice;
+        this.movieId = movieId;
     }
 
     public int getOrderId() {
@@ -44,28 +36,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public MovieSchedule getMovieSchedule() {
-        return movieSchedule;
+    public int getNumberTicket() {
+        return numberTicket;
     }
 
-    public void setMovieSchedule(MovieSchedule movieSchedule) {
-        this.movieSchedule = movieSchedule;
-    }
-
-    public ExtraOrder getExOrder() {
-        return exOrder;
-    }
-
-    public void setExOrder(ExtraOrder exOrder) {
-        this.exOrder = exOrder;
-    }
-
-    public int getNumberOfTickets() {
-        return numberOfTickets;
-    }
-
-    public void setNumberOfTickets(int numberOfTickets) {
-        this.numberOfTickets = numberOfTickets;
+    public void setNumberTicket(int numberTicket) {
+        this.numberTicket = numberTicket;
     }
 
     public double getTotalPrice() {
@@ -76,12 +52,11 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public int getRoomId() {
-        return roomId;
+    public int getMovieId() {
+        return movieId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
-    
 }

@@ -38,7 +38,6 @@ public class ControllerStaff {
     }
 
     private void setInformation() {
-        this.viewStaff.getIdLabel().setText(String.valueOf(this.staff.getUserId()));
         this.viewStaff.getUsernameLabel().setText(this.staff.getUsername());
     }
 
@@ -50,8 +49,7 @@ public class ControllerStaff {
         changePassword = viewStaff.getChangePassword();
 
         changePassword.addActionListener((v1) -> {
-            ControllerChangePassword controllerChangePassword = new ControllerChangePassword();
-
+            ControllerChangePassword controllerChangePassword = new ControllerChangePassword(staff);
         });
 
         logOut.addActionListener((v3 -> {
@@ -60,14 +58,13 @@ public class ControllerStaff {
         }));
 
         showOrderHistory.addActionListener((v4) -> {
-            //TODO show order history
-            //MISSING UI: show all orsder history
+            this.viewStaff.setVisible(false);
+            ControllerHistoryOrder cHo = new ControllerHistoryOrder(this.viewStaff);
 
         });
         order.addActionListener((v4) -> {
             this.viewStaff.setVisible(false);
-            Order order = new Order();
-            ControllerChooseMovie cChooseMovie = new ControllerChooseMovie(this.viewStaff, order);
+            ControllerOrder corder = new ControllerOrder(this.viewStaff);
            
         });
     }

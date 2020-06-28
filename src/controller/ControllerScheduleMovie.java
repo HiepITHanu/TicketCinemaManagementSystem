@@ -5,14 +5,15 @@
  */
 package controller;
 
+import View.ViewChooseMovies;
 import View.ViewScheduleMovie;
 import java.util.ArrayList;
-import java.util.Arrays;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListModel;
+import javax.swing.JOptionPane;
 import model.Movie;
-import model.Order;
+import model.MovieSchedule;
 import modelDao.staffDao;
 
 /**
@@ -20,30 +21,37 @@ import modelDao.staffDao;
  * @author BVCN 88
  */
 public class ControllerScheduleMovie {
-
     private ViewScheduleMovie vsm;
     private Movie m;
-    private JList<String> listSchedule;
     private String selectedSchedule;
-    private Order order;
+    private ArrayList<MovieSchedule> lstSchdule;
+    private MovieSchedule scheduleMovie;
+    private ViewChooseMovies viewChooseMovie;
 
-    public ControllerScheduleMovie(Movie m, Order order) {
+    public ControllerScheduleMovie(Movie m, ViewChooseMovies viewChooseMovie) {
         vsm = new ViewScheduleMovie();
         this.vsm.setVisible(true);
         this.m = m;
-        this.order = order;
         loadData();
+        this.viewChooseMovie= viewChooseMovie;
         action();
+       
     }
 
     public void action() {
         vsm.getNextBtn().addActionListener((e) -> {
-            selectedSchedule = listSchedule.getSelectedValue();
+           selectedSchedule = vsm.getListSchedule().getSelectedValue();
+           
+            scheduleMovie = lstSchdule.get(vsm.getListSchedule().getSelectedIndex());
+            this.vsm.setVisible(false);
             
-            this.vsm.dispose();
+            JOptionPane.showMessageDialog(null, "Schedule: " + selectedSchedule + "\n" + "Click Next to choose seats!");
+            ControllerChooseSeat abc = new ControllerChooseSeat(this.vsm ,m, scheduleMovie);
+            
         });
 
         this.vsm.getBackBtn().addActionListener((e) -> {
+            this.viewChooseMovie.setVisible(true);
             this.vsm.dispose();
         });
     }
@@ -53,14 +61,22 @@ public class ControllerScheduleMovie {
         title.setText(m.getName());
 
         staffDao staffDeo = new staffDao();
-        ListModel<String> lstSchdule = (ListModel<String>) staffDeo.getSpecificMovieSchedule(m.getMovieId()).getListSchedule();
+        lstSchdule = staffDeo.getSpecificMovieSchedule(m.getMovieId());
 
-        listSchedule = vsm.getListSchedule();
-        listSchedule.setModel(lstSchdule);
+        ArrayList<String> time = new ArrayList<>();
+
+        for (MovieSchedule ms : lstSchdule) {
+            time.add(ms.getTime());
+        }
+
+        DefaultListModel listModel = new DefaultListModel();
+        for (int i = 0; i < time.size(); i++) {
+            listModel.addElement(time.get(i));
+        }
+
+        vsm.getListSchedule().setModel(listModel);
+        vsm.getListSchedule().setSelectedIndex(0);
 
     }
 
-    public String getSelectSchedule() {
-        return selectedSchedule;
-    }
 }

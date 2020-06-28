@@ -14,18 +14,21 @@ import java.util.ArrayList;
 public class Room {
     private int roomId;
     private String roomName;
-    private ArrayList<String> seats;
+    private ArrayList<String> orderedSeat;
+    private int scheduleId;
     private static final int MAXSEAT = 56;
 
-    public Room(int roomId, String roomName, ArrayList<String> seats) {
+    public Room(int roomId, String roomName, ArrayList<String> orderedSeat, int scheduleId) {
         this.roomId = roomId;
         this.roomName = roomName;
-        this.seats = seats;
+        this.orderedSeat = orderedSeat;
+        this.scheduleId = scheduleId;
     }
 
-    public Room(String roomName, ArrayList<String> seats) {
+    public Room(String roomName, ArrayList<String> orderedSeat, int scheduleId) {
         this.roomName = roomName;
-        this.seats = seats;
+        this.orderedSeat = orderedSeat;
+        this.scheduleId = scheduleId;
     }
 
     public int getRoomId() {
@@ -44,15 +47,19 @@ public class Room {
         this.roomName = roomName;
     }
 
-    public ArrayList<String> getSeats() {
-        return seats;
+    public ArrayList<String> getOrderedSeat() {
+        return orderedSeat;
     }
 
-    public void setSeats(ArrayList<String> seats) {
-        this.seats = seats;
+    public void setOrderedSeat(ArrayList<String> orderedSeat) {
+        this.orderedSeat = orderedSeat;
     }
-    
-    private boolean isFullSeat(){
-        return this.seats.size() >= MAXSEAT;
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
     }
 }

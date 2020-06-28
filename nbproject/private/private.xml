@@ -3,13 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/Management/Management.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/model/Room.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/controller/ControllerAdmin.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/modelDao/adminDao.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/View/ViewChooseSeat.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/View/ViewAdmin.java</file>
-            <file>file:/C:/Users/BVCN%2088/Documents/NetBeansProjects/SQA/src/controller/ControllerChooseSeat.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/modelDao/staffDao.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/Management/Management.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/View/ViewDetailOrder.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/controller/ControllerDetailOrder.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/controller/ControllerOrder.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/model/Order.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/controller/ControllerChooseSeat.java</file>
+            <file>file:/E:/FIT-K17/SQA-2020/TicketCinemaManagementSystem/src/model/FoodAndDrink_Order.java</file>
         </group>
     </open-files>
 </project-private>

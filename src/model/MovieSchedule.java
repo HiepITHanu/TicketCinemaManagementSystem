@@ -14,18 +14,18 @@ import javax.swing.DefaultListModel;
  */
 public class MovieSchedule {
     private int id;
-    private String schedule;
+    private String time;
     private int movieId;
 
-    public MovieSchedule(int id, String schedule, int movieId) {
+    public MovieSchedule(int id, String time, int movieId) {
         this.id = id;
-        this.schedule = schedule;
+        this.time = time;
         this.movieId = movieId;
         
     }
 
-    public MovieSchedule(String schedule, int movieId) {
-        this.schedule = schedule;
+    public MovieSchedule(String time, int movieId) {
+        this.time = time;
         this.movieId = movieId;
     }
 
@@ -37,12 +37,12 @@ public class MovieSchedule {
         this.id = id;
     }
     
-    public String getSchedule(){
-        return schedule;
+    public String getTime(){
+        return time;
     }
 
     public DefaultListModel<String> getListSchedule() {
-        String[] listSchedule = this.schedule.split(" ");
+        String[] listSchedule = this.time.split(" ");
         DefaultListModel<String> lstSche = new DefaultListModel<>();
         for(String x : listSchedule){
             lstSche.addElement(x);
@@ -50,8 +50,8 @@ public class MovieSchedule {
         return lstSche;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getMovieId() {

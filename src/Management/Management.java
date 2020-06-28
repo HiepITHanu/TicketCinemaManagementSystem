@@ -12,6 +12,7 @@ import controller.ControllerLogin;
  * @author BVCN 88
  */
 public class Management {
+
     public static void main(String[] args) {
         AcctionLogin();
     }

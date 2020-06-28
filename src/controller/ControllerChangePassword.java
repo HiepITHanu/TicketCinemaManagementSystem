@@ -7,6 +7,7 @@ package controller;
 
 import View.ViewChangePassword;
 import javax.swing.JButton;
+import model.Account;
 import modelDao.staffDao;
 
 /**
@@ -14,26 +15,35 @@ import modelDao.staffDao;
  * @author BVCN 88
  */
 public class ControllerChangePassword {
+
     private ViewChangePassword viewChangePassword;
     private JButton confirm;
+    private Account staff;
 
-    public ControllerChangePassword() {
+    public ControllerChangePassword(Account staff) {
         viewChangePassword = new ViewChangePassword();
         viewChangePassword.setVisible(true);
-       
-        
+        this.staff = staff;
+        submitChangePassword();
     }
-    
-    private void submitChangePassword(){
+
+    private void submitChangePassword() {
+
         confirm = viewChangePassword.getConfirmBtn();
-         String currentPw = viewChangePassword.getCurrentPwTf().getText();
-         String newPw = viewChangePassword.getNewtPwTf().getText();
-         String retypePw = viewChangePassword.getRetypePwTf().getText();
-         staffDao staff = new staffDao();
-         //TODO: back end chua co ham change password
-         //check dieu kien truoc.
-        
+
+        confirm.addActionListener((e) -> {
+            String currentPw = viewChangePassword.getCurrentPwTf().getText();
+            String newPw = viewChangePassword.getNewtPwTf().getText();
+            String retypePw = viewChangePassword.getRetypePwTf().getText();
+            staffDao staff = new staffDao();
+
+            if (newPw.equals(retypePw) && currentPw.equals(this.staff.getPassword())) {
+                staff.updatePasswordAccount(this.staff.getUsername(), newPw);
+                viewChangePassword.showAlertOk();
+            } else {
+                viewChangePassword.showAlertFail();
+            }
+        });
     }
-    
-    
+
 }
